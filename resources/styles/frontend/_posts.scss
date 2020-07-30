@@ -1,0 +1,83 @@
+.post-card {
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  overflow: hidden;
+
+  &__content {
+    background: #fff;
+    padding: 20px 10px;
+  }
+
+  img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+  }
+
+  .btn-text {
+    color: #07a;
+    text-decoration: none;
+  }
+}
+
+.posts {
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin-left: -16px;
+    margin-right: -16px;
+  }
+
+  &__item {
+    flex: 1 0 33.333%;
+    margin-bottom: 30px;
+    padding: 0 16px;
+    width: 33.333%;
+  }
+
+  &__term {
+    background: transparent;
+    border: 2px solid #07a;
+    color: #07a;
+    border-radius: 50px;
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    text-align: center;
+
+    &.is-active {
+      background: #07a;
+      color: #fff;
+    }
+  }
+
+  &__categories a {
+    margin-right: 15px;
+  }
+
+  &__footer {
+    text-align: center;
+  }
+
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .btn {
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: #07a;
+    border: 2px solid #07a;
+    border-radius: 50px;
+    color: #fff;
+  }
+}

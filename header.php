@@ -21,5 +21,3 @@
 	</head>
 	<body <?php body_class(); ?>>
 		<?php my_app_shim_wp_body_open(); ?>
-
-		<?php \MyApp::render( 'views/partials/logo' ); ?>
