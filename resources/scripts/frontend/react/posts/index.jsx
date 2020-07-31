@@ -9,7 +9,9 @@ import { useEffect, useState } from '@wordpress/element';
  * Internal dependencies.
  */
 import { transformPost } from '@scripts/frontend/utils/transforms';
+import Loader from '../loader';
 import PostCard from './post-card';
+import PostCategories from './post-categories';
 
 /**
  * Constants.
@@ -26,6 +28,7 @@ const PAGINATION = {
 
 export default function Posts() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [posts, setPosts] = useState([]);
   const [pagination, setPagination] = useState(PAGINATION);
 
@@ -35,6 +38,8 @@ export default function Posts() {
    * setting the current page equal to 1.
    */
   const loadPosts = (params = {}) => {
+    setIsLoading(true);
+
     apiFetch({
       parse: false,
       path: addQueryArgs('/wp/v2/posts', {
@@ -50,6 +55,7 @@ export default function Posts() {
       setPosts(postsHandled);
       setPagination((oldPagination) => ({
         ...oldPagination,
+        current: 1,
         totalPages,
       }));
 
@@ -58,7 +64,7 @@ export default function Posts() {
   };
 
   const loadMorePosts = () => {
-    setIsLoading(true);
+    setIsLoadingMore(true);
 
     const nextPage = pagination.current + 1;
 
@@ -82,7 +88,7 @@ export default function Posts() {
         current: nextPage,
       }));
 
-      setIsLoading(false);
+      setIsLoadingMore(false);
     });
   };
 
@@ -99,25 +105,32 @@ export default function Posts() {
       <div className="container">
         <h2 className="posts__title">Últimos posts</h2>
 
-        {isLoading ? <div className="loading">Carregando</div> : (
-          <ul className="posts__list">
-            {posts.map(({ id, ...post }) => (
-              <li key={id} className="posts__item">
-                <PostCard {...post} />
-              </li>
-            ))}
-          </ul>
-        )}
+        <PostCategories loadPosts={loadPosts} />
+
+        {isLoading
+          ? (
+            <div className="loading">
+              <Loader />
+            </div>
+          ) : (
+            <ul className="posts__list">
+              {posts.map(({ id, ...post }) => (
+                <li key={id} className="posts__item">
+                  <PostCard {...post} />
+                </li>
+              ))}
+            </ul>
+          )}
 
         {pagination.current < pagination.totalPages && (
           <div className="posts__footer">
             <button
-              disabled={isLoading}
+              disabled={isLoadingMore}
               type="button"
               onClick={() => loadMorePosts()}
               className="btn btn-primary btn-load"
             >
-              {isLoading ? 'Carregando' : 'Carregar mais'}
+              {isLoadingMore ? 'Carregando' : 'Carregar mais'}
             </button>
           </div>
         )}

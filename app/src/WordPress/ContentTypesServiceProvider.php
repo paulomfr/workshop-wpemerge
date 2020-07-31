@@ -2,6 +2,7 @@
 
 namespace MyApp\WordPress;
 
+use Carbon_Fields\{ Container, Field };
 use WPEmerge\ServiceProviders\ServiceProviderInterface;
 
 /**
