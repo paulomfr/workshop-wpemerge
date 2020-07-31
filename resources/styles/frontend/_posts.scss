@@ -79,5 +79,21 @@
     border: 2px solid #07a;
     border-radius: 50px;
     color: #fff;
+    transition: .3s ease;
+  }
+
+  .btn-load {
+    &[disabled] {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  .loading {
+    align-items: center;
+    background: #ccc;
+    display: flex;
+    justify-content: center;
+    min-height: 300px;
   }
 }
