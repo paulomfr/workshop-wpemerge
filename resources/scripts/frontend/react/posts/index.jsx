@@ -11,6 +11,7 @@ import { useEffect, useState } from '@wordpress/element';
 import { transformPost } from '@scripts/frontend/utils/transforms';
 import Loader from '../loader';
 import PostCard from './post-card';
+import PostCategories from './post-categories';
 
 /**
  * Constants.
@@ -28,6 +29,7 @@ const PAGINATION = {
 export default function Posts() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [customParams, setCustomParams] = useState({});
   const [posts, setPosts] = useState([]);
   const [pagination, setPagination] = useState(PAGINATION);
 
@@ -38,6 +40,7 @@ export default function Posts() {
    */
   const loadPosts = (params = {}) => {
     setIsLoading(true);
+    setCustomParams(params);
 
     apiFetch({
       parse: false,
@@ -71,6 +74,7 @@ export default function Posts() {
       parse: false,
       path: addQueryArgs('/wp/v2/posts', {
         ...POSTS_QUERY,
+        ...customParams,
         page: nextPage,
       }),
     }).then(async (response) => {
@@ -103,6 +107,8 @@ export default function Posts() {
     <section className="posts">
       <div className="container">
         <h2 className="posts__title">Últimos posts</h2>
+
+        <PostCategories loadPosts={loadPosts} />
 
         {isLoading
           ? (

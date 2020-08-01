@@ -20,6 +20,8 @@ export const transformFeaturedMedia = (featuredMedia) => {
   };
 };
 
+const getPrimaryCategory = (categories) => categories[0];
+
 export const transformPost = ({
   title, content, excerpt, _embedded: embedded, ...post
 }) => ({
@@ -27,6 +29,7 @@ export const transformPost = ({
   title: title.rendered,
   content: content.rendered,
   excerpt: excerpt.rendered,
+  category: embedded['wp:term'] ? getPrimaryCategory(embedded['wp:term'][0]) : {},
   featuredMedia: embedded['wp:featuredmedia'] ? transformFeaturedMedia(embedded['wp:featuredmedia'][0]) : false,
 });
 
